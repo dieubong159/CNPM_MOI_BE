@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 //category Schema
 var CategorySchema = new Schema({
-  name: { type: String, required: true }
+  name: { type: String, required: true },
+  products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }]
 });
 
 exports.CategorySchema = CategorySchema;
@@ -16,11 +17,13 @@ exports.createCategory = categoryData => {
 };
 
 exports.findById = id => {
-  return Category.findById(id).then(result => {
-    result = result.toJSON();
-    delete result.__v;
-    return result;
-  });
+  return Category.findById(id)
+    .populate("products")
+    .then(result => {
+      result = result.toJSON();
+      delete result.__v;
+      return result;
+    });
 };
 
 exports.patchCategory = (id, categoryData) => {
@@ -41,6 +44,7 @@ exports.patchCategory = (id, categoryData) => {
 exports.list = (perPage, page) => {
   return new Promise((resolve, reject) => {
     Category.find()
+      .populate("products")
       .limit(perPage)
       .skip(perPage * page)
       .exec(function(err, categories) {

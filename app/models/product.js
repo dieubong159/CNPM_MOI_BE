@@ -6,14 +6,23 @@ var ProductSchema = new Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   discount: Number,
-  description: String,
+  description: { type: String, default: "Chưa có mô tả" },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true
   },
-  images: [{ url: String, alt: String }],
-  dateCreate: { type: Date, default: Date.now }
+  image: String,
+  dateCreate: {
+    type: String,
+    default:
+      new Date().getDate() +
+      "-" +
+      new Date().getMonth() +
+      "-" +
+      new Date().getFullYear()
+  },
+  origin: String
 });
 
 const Product = mongoose.model("Product", ProductSchema);

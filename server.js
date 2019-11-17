@@ -12,6 +12,7 @@ var usersRoute = require("./app/routes/users.routeConfig");
 var categoryRoute = require("./app/routes/category.routeconfig");
 var productRoute = require("./app/routes/product.routeConfig");
 var orderRoute = require("./app/routes/order.routeConfig");
+var postRoute = require("./app/routes/post.routeConfig");
 
 //APP CONFIGURATION---
 //configure our app to handle CORS requests
@@ -45,6 +46,7 @@ usersRoute.routeConfig(app);
 categoryRoute.routeConfig(app);
 productRoute.routeConfig(app);
 orderRoute.routeConfig(app);
+postRoute.routeConfig(app);
 
 //START THE SERVER
 // ================================

@@ -1,10 +1,8 @@
 const PostModel = require("../models/post");
 
 exports.insert = (req, res) => {
-  PostModel.createUser(req.body).then(result => {
-    res.status(201).send({
-      id: result._id
-    });
+  PostModel.createPost(req.body).then(result => {
+    res.status(201).send(result);
   });
 };
 

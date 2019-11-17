@@ -4,8 +4,16 @@ var Schema = mongoose.Schema;
 var PostSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  dateCreate: { type: Date, default: Date.now },
-  images: [{ url: String, alt: String }]
+  dateCreate: {
+    type: String,
+    default:
+      new Date().getDate() +
+      "-" +
+      new Date().getMonth() +
+      "-" +
+      new Date().getFullYear()
+  },
+  image: String
 });
 
 const Post = mongoose.model("Post", PostSchema);

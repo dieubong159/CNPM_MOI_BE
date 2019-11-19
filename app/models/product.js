@@ -43,6 +43,7 @@ exports.createProduct = async productData => {
 exports.findById = id => {
   console.log(id);
   return Product.findOne({ _id: id })
+    .populate("category", "name")
     .then(result => {
       // console.log("alo");
       result = result.toJSON();
@@ -120,6 +121,7 @@ exports.patchProduct = (id, productData) => {
 exports.list = (perPage, page) => {
   return new Promise((resolve, reject) => {
     Product.find()
+      .populate("category", "name")
       .limit(perPage)
       .skip(perPage * page)
       .exec(function(err, products) {

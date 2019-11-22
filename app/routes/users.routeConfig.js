@@ -2,7 +2,15 @@ var express = require("express");
 var router = express.Router();
 var UserController = require("../controllers/users.controller");
 var middleware = require("../common/middleware");
+const passport = require("passport");
+const passportConf = require("../common/passport");
 
+const passportFacebook = passport.authenticate("facebookToken", {
+  session: false
+});
+const passportJWT = passport.authenticate("jwt", {
+  session: false
+});
 // var User = require("../models/users");
 exports.routeConfig = function(app) {
   app.get("/users", [UserController.list]);
@@ -13,4 +21,7 @@ exports.routeConfig = function(app) {
 
   app.post("/register", [UserController.insert]);
   app.post("/login", [UserController.login]);
+  app.post("/secret", [UserController.secret]);
+
+  app.post("/oauth/facebook", passportFacebook, [UserController.facebookOAuth]);
 };

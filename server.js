@@ -42,6 +42,7 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use(passport.initialize());
 
+//Router
 usersRoute.routeConfig(app);
 categoryRoute.routeConfig(app);
 productRoute.routeConfig(app);

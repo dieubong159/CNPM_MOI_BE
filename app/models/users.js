@@ -36,15 +36,29 @@ var UserSchema = new Schema({
     index: { unique: true },
     lowercase: true
   },
-  password: { type: String, required: true },
+  password: String,
   name: String,
   address: String,
   phoneNumber: String,
   gender: Boolean,
   dateOfBirth: Date,
   isAdmin: Boolean,
-  isActivated: Boolean
+  isActivated: Boolean,
+  method: String,
+  facebook: {
+    id: String,
+    email: String
+  }
 });
+
+const signToken = user => {
+  var payload = { id: user._id };
+  return jwt.sign(payload, jwtOption.secretOrKey, { expiresIn: 3600 });
+};
+
+exports.signToken = signToken;
+
+exports.UserSchema = UserSchema;
 
 const User = mongoose.model("Users", UserSchema);
 
@@ -124,36 +138,10 @@ exports.login = async loginData => {
     if (bcrypt.compareSync(loginData.password, user.password)) {
       //from now on we’ll identify the user by the id and the id is
       //the only personalized value that goes into our token
-      var payload = { id: user._id };
-      var token = jwt.sign(payload, jwtOption.secretOrKey, { expiresIn: 3600 });
+      const token = signToken(user);
       return { msg: "ok", token: token };
     } else {
       return { msg: "Password is incorrect" };
     }
   }
-  
 };
-
-// //hash the password before the user is saved
-// UserSchema.pre("save", function(next) {
-//   var user = this;
-//   //hash the password only if the password has been changed or user is new
-//   if (!user.isModified("password")) return next;
-//   //generate the hash
-//   bcrypt.hash(user.password, null, null, function(err, hash) {
-//     if (err) return next(err);
-//     //change the password to the hash version
-//     user.password = hash;
-//     next();
-//   });
-// });
-
-// //method to compare a given password with the database hash
-// UserSchema.methods.comparePassword = function(password) {
-//   var user = this;
-
-//   return bcrypt.compareSync(password, user.password);
-// };
-
-// //return the model
-// module.exports = mongoose.model("Users", UserSchema);

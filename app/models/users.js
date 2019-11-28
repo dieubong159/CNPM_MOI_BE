@@ -53,7 +53,7 @@ var UserSchema = new Schema({
 
 const signToken = user => {
   var payload = { id: user._id };
-  return jwt.sign(payload, jwtOption.secretOrKey, { expiresIn: 3600 });
+  return jwt.sign(payload, jwtOption.secretOrKey, { expiresIn: 60 });
 };
 
 exports.signToken = signToken;

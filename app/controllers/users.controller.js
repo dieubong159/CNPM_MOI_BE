@@ -59,8 +59,26 @@ exports.login = (req, res) => {
 
 exports.facebookOAuth = async (req, res, next) => {
   //Generate token
-  const token = signToken(req.user);
-  res.status(200).json({ token });
+  if (req.user.err) {
+    res.status(401).json({
+      success: false,
+      message: "Auth failed",
+      error: req.user.err
+    });
+  } else if (req.user) {
+    const token = signToken(req.user);
+    res.status(200).json({
+      success: true,
+      token: token,
+      message: "Enjoy your token",
+      user: req.user
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "Auth failed"
+    });
+  }
 };
 
 exports.secret = async (req, res, next) => {

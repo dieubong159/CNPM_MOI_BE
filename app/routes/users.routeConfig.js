@@ -13,11 +13,15 @@ const passportJWT = passport.authenticate("jwt", {
 });
 // var User = require("../models/users");
 exports.routeConfig = function(app) {
-  app.get("/users", [UserController.list]);
-  app.post("/users", [UserController.insert]);
-  app.get("/users/:user_id", [UserController.getById]);
-  app.patch("/users/:user_id", [UserController.patchById]);
-  app.delete("/users/:user_id", [UserController.removeById]);
+  app.get("/users", middleware.checkToken, [UserController.list]);
+  app.post("/users", middleware.checkToken, [UserController.insert]);
+  app.get("/users/:user_id", middleware.checkToken, [UserController.getById]);
+  app.patch("/users/:user_id", middleware.checkToken, [
+    UserController.patchById
+  ]);
+  app.delete("/users/:user_id", middleware.checkToken, [
+    UserController.removeById
+  ]);
 
   app.post("/register", [UserController.insert]);
   app.post("/login", [UserController.login]);

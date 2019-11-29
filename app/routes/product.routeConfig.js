@@ -6,9 +6,7 @@ exports.routeConfig = function(app) {
   app.get("/product/filter", [ProductController.filterByPrice]);
 
   app.post("/product", middleware.checkToken, [ProductController.insert]);
-  app.get("/product/:product_id", middleware.checkToken, [
-    ProductController.getById
-  ]);
+  app.get("/product/:product_id", [ProductController.getById]);
 
   app.get("/product/listByCategory/:category_id", [
     ProductController.listByCategory

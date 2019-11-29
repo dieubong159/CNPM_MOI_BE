@@ -53,7 +53,7 @@ exports.removeById = (req, res) => {
 
 exports.login = (req, res) => {
   UserModel.login(req.body).then(result => {
-    res.send(result);
+    res.status(200).send(result);
   });
 };
 

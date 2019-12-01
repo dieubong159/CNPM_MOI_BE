@@ -56,6 +56,15 @@ const signToken = user => {
   return jwt.sign(payload, jwtOption.secretOrKey, { expiresIn: 3600 });
 };
 
+exports.verifyToken = async (token, secretKey) => {
+  try {
+    var decoded = await jwt.verify(token, secretKey);
+  } catch (err) {
+    return err;
+  }
+  return decoded;
+};
+
 exports.signToken = signToken;
 
 exports.UserSchema = UserSchema;

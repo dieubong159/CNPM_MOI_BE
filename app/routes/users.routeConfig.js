@@ -22,6 +22,7 @@ exports.routeConfig = function(app) {
   app.delete("/users/:user_id", middleware.checkToken, [
     UserController.removeById
   ]);
+  app.post("/users/verifyToken", UserController.verifyToken);
 
   app.post("/register", [UserController.insert]);
   app.post("/login", [UserController.login]);

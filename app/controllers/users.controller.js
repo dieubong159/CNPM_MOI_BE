@@ -1,6 +1,7 @@
 const UserModel = require("../models/users");
 const crypto = require("crypto");
 const signToken = UserModel.signToken;
+const config = require("../../config");
 
 exports.insert = (req, res) => {
   UserModel.createUser(req.body).then(result => {
@@ -83,4 +84,13 @@ exports.facebookOAuth = async (req, res, next) => {
 
 exports.secret = async (req, res, next) => {
   console.log("Secret here");
+};
+
+exports.verifyToken = async (req, res, next) => {
+  if (req.body.token) {
+    UserModel.verifyToken(req.body.token, config.secret).then(result => {
+      if (result.message) res.status(401).send(result);
+      else res.status(200).send(result);
+    });
+  }
 };

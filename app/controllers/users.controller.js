@@ -58,6 +58,12 @@ exports.login = (req, res) => {
   });
 };
 
+exports.loginAdmin = (req, res) => {
+  UserModel.loginAdmin(req.body).then(result => {
+    res.status(200).send(result);
+  });
+};
+
 exports.facebookOAuth = async (req, res, next) => {
   //Generate token
   if (req.user.err) {

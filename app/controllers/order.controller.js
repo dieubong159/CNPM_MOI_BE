@@ -33,6 +33,12 @@ exports.list = (req, res) => {
   });
 };
 
+exports.confirmOrder = (req, res) => {
+  OrderModel.confirmOrder(req.params.order_id, req.body).then(result => {
+    res.status(204).send(result);
+  });
+};
+
 exports.removeById = (req, res) => {
   OrderModel.removeById(req.params.order_id).then(result => {
     res.status(204).send(result);

@@ -144,13 +144,33 @@ exports.login = async loginData => {
     if (!user) {
       return { message: "No such user found", user };
     }
+    if (!user.isAdmin) {
+      return { msg: "Email or Password is incorrect" };
+    }
     if (bcrypt.compareSync(loginData.password, user.password)) {
       //from now on we’ll identify the user by the id and the id is
       //the only personalized value that goes into our token
       const token = signToken(user);
       return { msg: "ok", token: token };
     } else {
-      return { msg: "Password is incorrect" };
+      return { msg: "Email or Password is incorrect" };
+    }
+  }
+};
+
+exports.loginAdmin = async loginData => {
+  if (loginData.email && loginData.password) {
+    var user = await this.findByEmail(loginData.email);
+    if (!user) {
+      return { message: "No such user found", user };
+    }
+    if (bcrypt.compareSync(loginData.password, user.password)) {
+      //from now on we’ll identify the user by the id and the id is
+      //the only personalized value that goes into our token
+      const token = signToken(user);
+      return { msg: "ok", token: token };
+    } else {
+      return { msg: "Email or Password is incorrect" };
     }
   }
 };

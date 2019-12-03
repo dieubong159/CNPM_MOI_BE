@@ -26,6 +26,7 @@ exports.routeConfig = function(app) {
 
   app.post("/register", [UserController.insert]);
   app.post("/login", [UserController.login]);
+  app.post("/loginAdmin", [UserController.loginAdmin]);
   app.post("/secret", [UserController.secret]);
 
   app.post("/oauth/facebook", passportFacebook, [UserController.facebookOAuth]);
